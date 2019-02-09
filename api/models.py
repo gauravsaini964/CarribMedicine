@@ -97,4 +97,4 @@ class AuthKey(models.Model):
         db_table = 'auth_key'
 
     def __str__(self):
-        return self.name
+        return self.key

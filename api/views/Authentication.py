@@ -1,9 +1,14 @@
 # REST Imports.
 from rest_framework.views import APIView
+from rest_framework.response import Response
+from rest_framework.status import HTTP_200_OK
 
 # MISC Imports.
 import time
 import datetime
+
+# Models Imports.
+from api.models import User
 
 # def jwt_payload_handler(user):
 #     """ Custom payload handler
@@ -20,3 +25,10 @@ import datetime
 #         'iat': int(time.time()),
 #         'nbf': int(time.time()),
 #     }
+
+
+class ListUser(APIView):
+
+    @staticmethod
+    def get(request):
+        return Response({'result': User.objects.all().values()}, HTTP_200_OK)
