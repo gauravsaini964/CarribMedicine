@@ -2,6 +2,10 @@ from django.db import models
 from django.contrib.auth.models import (
     AbstractBaseUser, BaseUserManager, PermissionsMixin, AbstractUser
 )
+from rest_framework_jwt.authentication import api_settings
+import datetime
+import time
+from rest_framework_jwt.utils import jwt_encode_handler
 from django.utils.translation import ugettext_lazy as _
 # Create your models here.
 
@@ -15,16 +19,27 @@ class UserManager(BaseUserManager):
     to create `User` objects.
     """
 
-    def create_user(self, username, email, password=None):
+    def create_user(self, email, password=None):
         """Create and return a `User` with an email, username and password."""
-        if username is None:
-            raise TypeError('Users must have a username.')
 
         if email is None:
             raise TypeError('Users must have an email address.')
+        if password is None:
+            raise TypeError('Users must have a password address.')
 
-        user = self.model(username=username, email=self.normalize_email(email))
+        user = self.model(email=self.normalize_email(email))
         user.set_password(password)
+        user.save()
+
+        return user
+
+    def create_user_otp_based(self, phone):
+        """Create and return a `User` with an email, username and password."""
+
+        if phone is None:
+            raise TypeError('Users must have an phone_no')
+
+        user = self.model(phone_no=self.phone)
         user.save()
 
         return user
@@ -43,15 +58,27 @@ class UserManager(BaseUserManager):
 
         return user
 
+    # def login_with_password(self, email, password):
+    #     pass
+    
+    # def login_with_otp(self, phone_no, otp):
+
+    #     if otp is None:
+    #         raise TypeError('Superusers must have a password.')
+        
+    #     if otp == self.modeluser.otp:
+
 
 class User(AbstractBaseUser, PermissionsMixin):
     password = models.CharField(max_length=128)
     last_login = models.DateTimeField(blank=True, null=True)
     is_superuser = models.BooleanField(default=False)
-    username = models.CharField(unique=True, max_length=150)
+    username = models.CharField(max_length=150)
     first_name = models.CharField(max_length=30)
     last_name = models.CharField(max_length=150)
     email = models.CharField(unique=True, max_length=254)
+    phone_no = models.CharField(unique=True, null=True, max_length=20)
+    is_phone_verified = models.BooleanField(default=False)
     is_staff = models.BooleanField(default=False)
     is_active = models.BooleanField(default=False)
     date_joined = models.DateTimeField(auto_now_add=True)
@@ -77,7 +104,21 @@ class User(AbstractBaseUser, PermissionsMixin):
     def fullname(self):
         fullname = self.first_name + ' ' + self.last_name
         return fullname
-
+    
+    @property
+    def token(self):
+        epoch_time = int(time.time())
+        india_time = datetime.datetime.fromtimestamp(epoch_time)
+        expiry_time = india_time + api_settings.JWT_EXPIRATION_DELTA
+        payload = {
+            'id': self.id,
+            'exp': expiry_time,
+            'iat': int(time.time()),
+            'nbf': int(time.time()),
+        }
+        token = jwt_encode_handler(payload)
+        return token
+        
     class Meta:
         db_table = 'user'
 
