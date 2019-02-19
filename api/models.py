@@ -3,6 +3,7 @@ from django.contrib.auth.models import (
     AbstractBaseUser, BaseUserManager, PermissionsMixin, AbstractUser
 )
 from rest_framework_jwt.authentication import api_settings
+from django.contrib.postgres.fields import JSONField
 import datetime
 import time
 from rest_framework_jwt.utils import jwt_encode_handler
@@ -139,3 +140,109 @@ class AuthKey(models.Model):
 
     def __str__(self):
         return self.key
+
+
+class Courses(models.Model):
+
+    id = models.AutoField(primary_key=True)
+    name = models.CharField(max_length=50)
+    description = models.CharField(max_length=255)
+    icon_url = models.URLField(max_length=1000, null=True)
+    iamge_url = models.URLField(max_length=1000, null=True)
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+    flag = models.BooleanField(default=True)
+
+    class Meta:
+        db_table = 'courses'
+
+    def __str__(self):
+        return self.name
+
+
+class Subjects(models.Model):
+
+    id = models.AutoField(primary_key=True)
+    name = models.CharField(max_length=50)
+    description = models.CharField(max_length=255)
+    icon_url = models.URLField(max_length=1000, null=True)
+    iamge_url = models.URLField(max_length=1000, null=True)
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+    flag = models.BooleanField(default=True)
+
+    class Meta:
+        db_table = 'subjects'
+
+    def __str__(self):
+        return self.name
+
+
+class CourseSubjects(models.Model):
+
+    id = models.AutoField(primary_key=True)
+    course_id = models.ForeignKey("Courses", on_delete=models.CASCADE)
+    subject_id = models.ForeignKey("Subjects", on_delete=models.CASCADE)
+    flag = models.BooleanField(default=True)
+
+    class Meta:
+        db_table = 'course_subjects'
+        unique_together = ('course_id', 'subject_id')
+
+
+class Questions(models.Model):
+
+    id = models.BigAutoField(primary_key=True)
+    text = models.CharField(max_length=255)
+    question_type = models.IntegerField(default=None, null=True)
+    hints = JSONField(null=True)
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+    flag = models.BooleanField(default=True)
+
+    class Meta:
+        db_table = 'questions'
+
+    def __str__(self):
+        return self.text
+
+
+class Choices(models.Model):
+
+    id = models.BigAutoField(primary_key=True)
+    text = models.CharField(max_length=255)
+    media_url = models.URLField(max_length=1000)
+    media_type = models.IntegerField(default=None, null=True)
+    choice_type = models.IntegerField(default=1, null=True)
+    hints = JSONField(null=True)
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+
+    class Meta:
+        db_table = 'choices'
+
+    def __str__(self):
+        return self.text
+
+
+class QuestionsSubject(models.Model):
+
+    id = models.BigAutoField(primary_key=True)
+    question_id = models.ForeignKey("Questions", on_delete=models.CASCADE)
+    subject_id = models.ForeignKey("Subjects", on_delete=models.CASCADE)
+    flag = models.BooleanField(default=True)
+
+    class Meta:
+        db_table = "questions_subject"
+
+
+class QuestionsChoices(models.Model):
+
+    id = models.BigAutoField(primary_key=True)
+    question_id = models.ForeignKey("Questions", on_delete=models.CASCADE)
+    choice_id = models.ForeignKey("Choices", on_delete=models.CASCADE)
+    flag = models.BooleanField(default=True)
+
+    class Meta:
+        db_table = "questions_choices"
+
