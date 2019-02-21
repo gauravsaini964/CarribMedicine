@@ -246,3 +246,62 @@ class QuestionsChoices(models.Model):
     class Meta:
         db_table = "questions_choices"
 
+
+class Quiz(models.Model):
+     
+    id = models.BigAutoField(primary_key=True)
+    user = models.ForeignKey('User', on_delete=models.DO_NOTHING)
+    quiz_type = models.CharField(max_length=9)
+    marks = models.FloatField()
+    percentage = models.FloatField()
+    status = models.IntegerField()
+    questions_attempted = models.IntegerField(default=0)
+    correct_questions = models.IntegerField(default=0)
+    incorrect_questions = models.IntegerField(default=0)
+    is_complete = models.BooleanField(default=False)
+    result_set = JSONField()
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+    entity_id = models.IntegerField(default=None)
+    entity_type = models.CharField(default=None, max_length=255)
+    flag = models.IntegerField()
+
+    class Meta:
+        managed = False
+        db_table = 'quiz'
+
+
+class QuizQuestions(models.Model):
+
+    id = models.BigAutoField(primary_key=True)
+    quiz = models.ForeignKey('Quiz', on_delete=models.DO_NOTHING)
+    question = models.ForeignKey('Questions', on_delete=models.DO_NOTHING)
+    user_answer = models.IntegerField(default=None)
+    correct_answer = models.IntegerField()
+    marks = models.FloatField(default=0.00)
+    response_time = models.FloatField(default=0.00)
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+    flag = models.IntegerField()
+
+    class Meta:
+        managed = False
+        db_table = 'quiz_questions'
+
+
+class UserSubjectScore(models.Model):
+
+    id = models.BigAutoField(primary_key=True)
+    subject = models.ForeignKey("Subjects", on_delete=models.CASCADE)
+    user = models.ForeignKey("User", on_delete=models.CASCADE)
+    score = models.IntegerField(default=0)
+    total_score = models.IntegerField(default=0)
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+    flag = models.IntegerField()
+
+    class Meta:
+        db_table = 'user_subject_score'
+
+    def __str__(self):
+        return self.id
