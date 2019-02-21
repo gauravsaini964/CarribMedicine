@@ -228,8 +228,8 @@ class Choices(models.Model):
 class QuestionsSubject(models.Model):
 
     id = models.BigAutoField(primary_key=True)
-    question_id = models.ForeignKey("Questions", on_delete=models.CASCADE)
-    subject_id = models.ForeignKey("Subjects", on_delete=models.CASCADE)
+    question = models.ForeignKey("Questions", on_delete=models.CASCADE)
+    subject = models.ForeignKey("Subjects", on_delete=models.CASCADE)
     flag = models.BooleanField(default=True)
 
     class Meta:
@@ -239,8 +239,8 @@ class QuestionsSubject(models.Model):
 class QuestionsChoices(models.Model):
 
     id = models.BigAutoField(primary_key=True)
-    question_id = models.ForeignKey("Questions", on_delete=models.CASCADE)
-    choice_id = models.ForeignKey("Choices", on_delete=models.CASCADE)
+    question = models.ForeignKey("Questions", on_delete=models.CASCADE)
+    choice = models.ForeignKey("Choices", on_delete=models.CASCADE)
     flag = models.BooleanField(default=True)
 
     class Meta:
