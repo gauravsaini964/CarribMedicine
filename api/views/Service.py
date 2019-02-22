@@ -14,7 +14,7 @@ from api.models import User, Subjects
 # Serializer Imports.
 
 
-class TabList(APIView):
+class TabListView(APIView):
 
     @staticmethod
     def get(request):
@@ -45,7 +45,7 @@ class TabList(APIView):
         return Response(res, status.HTTP_200_OK)
 
 
-class SubjectList(APIView):
+class SubjectListView(APIView):
 
     @staticmethod
     def get(request):
