@@ -9,14 +9,15 @@ from django.contrib.auth.hashers import check_password
 import datetime
 
 # Models Imports.
-from api.models import User
+from api.models import User, Subjects
 
 # Serializer Imports.
 
 
 class TabList(APIView):
 
-    def get(self, request):
+    @staticmethod
+    def get(request):
 
         user = request.requested_by
         # harcode for now
@@ -43,3 +44,12 @@ class TabList(APIView):
         res = {'message': 'TabList fetched successfully', 'result': {'tabs_list': tabs}}
         return Response(res, status.HTTP_200_OK)
 
+
+class SubjectList(APIView):
+
+    @staticmethod
+    def get(request):
+        user = request.requested_by
+        subject_list = Subjects.objects.all().values()
+        res = {'message': 'Subject List fetched successfully', 'result': {'tabs_list': subject_list}}
+        return Response(res, status.HTTP_200_OK)
