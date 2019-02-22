@@ -19,7 +19,7 @@ class TabList(APIView):
     @staticmethod
     def get(request):
 
-        user = request.requested_by
+        # user = request.requested_by
         # harcode for now
         tabs = [
             {
@@ -49,7 +49,7 @@ class SubjectList(APIView):
 
     @staticmethod
     def get(request):
-        user = request.requested_by
+        # user = request.requested_by
         subject_list = Subjects.objects.all().values()
         res = {'message': 'Subject List fetched successfully', 'result': {'tabs_list': subject_list}}
         return Response(res, status.HTTP_200_OK)
