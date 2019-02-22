@@ -195,6 +195,8 @@ class Questions(models.Model):
     id = models.BigAutoField(primary_key=True)
     text = models.CharField(max_length=255)
     question_type = models.IntegerField(default=None, null=True)
+    media_url = models.URLField(max_length=1000, null=True)
+    media_type = models.IntegerField(default=None, null=True)
     hints = JSONField(null=True)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
@@ -211,7 +213,7 @@ class Choices(models.Model):
 
     id = models.BigAutoField(primary_key=True)
     text = models.CharField(max_length=255)
-    media_url = models.URLField(max_length=1000)
+    media_url = models.URLField(max_length=1000, null=True)
     media_type = models.IntegerField(default=None, null=True)
     choice_type = models.IntegerField(default=1, null=True)
     hints = JSONField(null=True)
