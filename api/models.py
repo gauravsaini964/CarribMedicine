@@ -267,7 +267,7 @@ class Quiz(models.Model):
     updated_at = models.DateTimeField(auto_now=True)
     entity_id = models.IntegerField(default=None)
     entity_type = models.CharField(default=None, max_length=255)
-    flag = models.IntegerField()
+    flag = models.IntegerField(default=True)
 
     class Meta:
         db_table = 'quiz'
@@ -279,8 +279,8 @@ class QuizQuestions(models.Model):
     id = models.BigAutoField(primary_key=True)
     quiz = models.ForeignKey('Quiz', on_delete=models.DO_NOTHING)
     question = models.ForeignKey('Questions', on_delete=models.DO_NOTHING)
-    user_answer = models.ForeignKey("Choices", on_delete=models.DO_NOTHING, related_name='user_answer')
-    correct_answer = models.ForeignKey("Choices", on_delete=models.DO_NOTHING, related_name='correct_answer')
+    user_answer = models.ForeignKey("Choices", on_delete=models.DO_NOTHING, related_name='user_answer', null=True)
+    correct_answer = models.ForeignKey("Choices", on_delete=models.DO_NOTHING, related_name='correct_answer', null=True)
     marks = models.FloatField(default=0.00)
     response_time = models.FloatField(default=0.00)
     created_at = models.DateTimeField(auto_now_add=True)
@@ -290,6 +290,7 @@ class QuizQuestions(models.Model):
     class Meta:
         db_table = 'quiz_questions'
         managed = True
+
 
 class UserSubjectScore(models.Model):
 
