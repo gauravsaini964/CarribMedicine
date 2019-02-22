@@ -241,6 +241,7 @@ class QuestionsChoices(models.Model):
     id = models.BigAutoField(primary_key=True)
     question = models.ForeignKey("Questions", on_delete=models.CASCADE)
     choice = models.ForeignKey("Choices", on_delete=models.CASCADE)
+    is_correct = models.BooleanField(default=False)
     flag = models.BooleanField(default=True)
 
     class Meta:
@@ -252,9 +253,9 @@ class Quiz(models.Model):
     id = models.BigAutoField(primary_key=True)
     user = models.ForeignKey('User', on_delete=models.DO_NOTHING)
     quiz_type = models.CharField(max_length=9)
-    marks = models.FloatField()
-    percentage = models.FloatField()
-    status = models.IntegerField()
+    marks = models.FloatField(default=0.00)
+    percentage = models.FloatField(default=0.00)
+    total_questions = models.IntegerField(default=0)
     questions_attempted = models.IntegerField(default=0)
     correct_questions = models.IntegerField(default=0)
     incorrect_questions = models.IntegerField(default=0)
@@ -267,8 +268,8 @@ class Quiz(models.Model):
     flag = models.IntegerField()
 
     class Meta:
-        managed = False
         db_table = 'quiz'
+        managed = True
 
 
 class QuizQuestions(models.Model):
@@ -276,18 +277,17 @@ class QuizQuestions(models.Model):
     id = models.BigAutoField(primary_key=True)
     quiz = models.ForeignKey('Quiz', on_delete=models.DO_NOTHING)
     question = models.ForeignKey('Questions', on_delete=models.DO_NOTHING)
-    user_answer = models.IntegerField(default=None)
-    correct_answer = models.IntegerField()
+    user_answer = models.ForeignKey("Choices", on_delete=models.DO_NOTHING, related_name='user_answer')
+    correct_answer = models.ForeignKey("Choices", on_delete=models.DO_NOTHING, related_name='correct_answer')
     marks = models.FloatField(default=0.00)
     response_time = models.FloatField(default=0.00)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
-    flag = models.IntegerField()
+    flag = models.IntegerField(default=True)
 
     class Meta:
-        managed = False
         db_table = 'quiz_questions'
-
+        managed = True
 
 class UserSubjectScore(models.Model):
 
