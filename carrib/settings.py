@@ -29,9 +29,6 @@ DEBUG = True
 
 ALLOWED_HOSTS = ['*']
 
-# enable heroku
-django_heroku.settings(locals())
-
 # Application definition
 
 INSTALLED_APPS = [
@@ -53,8 +50,11 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
-    'api.middleware.TokenCheck.KeyAndTokenCheck'
+    'api.middleware.TokenCheck.KeyAndTokenCheck',
 ]
+
+# enable heroku
+django_heroku.settings(locals())
 
 ROOT_URLCONF = 'carrib.urls'
 
