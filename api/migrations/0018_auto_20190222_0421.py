@@ -12,48 +12,6 @@ class Migration(migrations.Migration):
     ]
 
     operations = [
-        migrations.CreateModel(
-            name='Quiz',
-            fields=[
-                ('id', models.BigAutoField(primary_key=True, serialize=False)),
-                ('quiz_type', models.CharField(max_length=9)),
-                ('marks', models.FloatField()),
-                ('percentage', models.FloatField()),
-                ('status', models.IntegerField()),
-                ('questions_attempted', models.IntegerField(default=0)),
-                ('correct_questions', models.IntegerField(default=0)),
-                ('incorrect_questions', models.IntegerField(default=0)),
-                ('is_complete', models.BooleanField(default=False)),
-                ('result_set', django.contrib.postgres.fields.jsonb.JSONField()),
-                ('created_at', models.DateTimeField(auto_now_add=True)),
-                ('updated_at', models.DateTimeField(auto_now=True)),
-                ('entity_id', models.IntegerField(default=None)),
-                ('entity_type', models.CharField(default=None, max_length=255)),
-                ('flag', models.IntegerField()),
-            ],
-            options={
-                'db_table': 'quiz',
-                'managed': True,
-            },
-        ),
-        migrations.CreateModel(
-            name='QuizQuestions',
-            fields=[
-                ('id', models.BigAutoField(primary_key=True, serialize=False)),
-                ('user_answer', models.IntegerField(default=None)),
-                ('correct_answer', models.IntegerField()),
-                ('marks', models.FloatField(default=0.0)),
-                ('response_time', models.FloatField(default=0.0)),
-                ('created_at', models.DateTimeField(auto_now_add=True)),
-                ('updated_at', models.DateTimeField(auto_now=True)),
-                ('flag', models.IntegerField()),
-            ],
-            options={
-                'db_table': 'quiz_questions',
-                'managed': True,
-            },
-        ),
-
         migrations.RemoveField(
             model_name='quiz',
             name='status',
