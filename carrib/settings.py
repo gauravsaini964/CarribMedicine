@@ -83,10 +83,10 @@ WSGI_APPLICATION = 'carrib.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': 'postgres',
-        'USER': 'carribdev',
-        'PASSWORD': 'Urgmorph964',
-        'HOST': 'carribdev.cbrqkacjuooj.ap-south-1.rds.amazonaws.com',
+        'NAME': 'dfeo7eg5ulkao4',
+        'USER': 'rwfqzfagdknllx',
+        'PASSWORD': '2f18ae42d69a61e3e562b52285a930c66320f22e7ff0132e583c7103aca94a1d',
+        'HOST': 'ec2-107-20-183-142.compute-1.amazonaws.com',
         'PORT': '5432',
     }
 }
