@@ -3,7 +3,7 @@ from django.contrib.auth.models import (
     AbstractBaseUser, BaseUserManager, PermissionsMixin, AbstractUser
 )
 from rest_framework_jwt.authentication import api_settings
-from django.contrib.postgres.fields import JSONField
+from django.contrib.postgres.fields import JSONField, DateRangeField
 import datetime
 import time
 from rest_framework_jwt.utils import jwt_encode_handler
@@ -308,3 +308,70 @@ class UserSubjectScore(models.Model):
 
     def __str__(self):
         return self.id
+
+
+class QuestionBank(models.Model):
+    id = models.BigAutoField(primary_key=True)
+    description = models.CharField(max_length=255)
+    type = models.IntegerField()
+    flag = models.BooleanField(default=True)
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+
+    class Meta:
+        db_table = 'question_bank'
+
+
+class QuestionsQuestionBank(models.Model):
+    id = models.BigAutoField(primary_key=True)
+    question_bank = models.ForeignKey('QuestionBank', models.DO_NOTHING)
+    question = models.ForeignKey('Questions', models.DO_NOTHING, blank=True, null=True)
+
+    class Meta:
+        db_table = 'question_question_bank'
+
+
+class Years(models.Model):
+
+    id = models.BigAutoField(primary_key=True)
+    year = models.DateField(auto_now=False, auto_now_add=False)
+    academic_year_start = models.DateField(auto_now=False, auto_now_add=False)
+    academic_year_end = models.DateField(auto_now=False, auto_now_add=False)
+
+    class Meta:
+        db_table = 'years'
+
+    def __str__(self):
+        return self.year
+
+
+class PracticePapers(models.Model):
+
+    id = models.BigAutoField(primary_key=True)
+    name = models.CharField(max_length=255)
+    description = models.CharField(max_length=500)
+    question_bank = models.ForeignKey('QuestionBank', models.DO_NOTHING)
+    year = models.ForeignKey("Years", on_delete=models.CASCADE)
+    time_limit = models.IntegerField()
+    is_time_per_question = models.BooleanField(default=False)
+    guidelines = JSONField()
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+    flag = models.BooleanField(default=True)
+
+    class Meta:
+        db_table = 'practice_papers'
+
+    def __str__(self):
+        return self.name
+
+
+class PaperSubject(models.Model):
+
+    id = models.BigAutoField(primary_key=True)
+    subject = models.ForeignKey("Subjects", on_delete=models.CASCADE)
+    practice_paper = models.ForeignKey("PracticePapers", on_delete=models.CASCADE)
+    flag = models.BooleanField(default=True)
+
+    class Meta:
+        db_table = 'paper_subjects'
