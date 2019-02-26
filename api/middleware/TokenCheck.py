@@ -37,7 +37,7 @@ class KeyAndTokenCheck:
                 except AuthKey.DoesNotExist:
                     return HttpResponse(json.dumps(res), status.HTTP_400_BAD_REQUEST)
 
-            if not request.path.startswith('/auth/'):
+            if not request.path.startswith('/v1/auth/'):
                 try:
                     auth = request.META['HTTP_AUTHORIZATION'].split()[1]
                     try:
