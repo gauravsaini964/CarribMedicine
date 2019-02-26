@@ -9,7 +9,7 @@ urlpatterns = [
     path('auth/user/register/', Authentication.RegistrationAPIView.as_view()),
     path('auth/user/login/', Authentication.UserLoginView.as_view()),
     path('auth/user/gen/otp/', Authentication.GenerateOTPView.as_view()),
-    path('auth/user/logout/', Authentication.UserLogoutView.as_view()),
+    path('user/logout/', Authentication.UserLogoutView.as_view()),
     # service apis
     path('service/tab/list', Service.TabListView.as_view()),
     path('service/subject/list', Service.SubjectListView.as_view()),
