@@ -99,6 +99,7 @@ class UserLoginView(APIView):
                 user_obj = User.objects.get(email=email)
                 if check_password(password, user_obj.password):
                     user_obj.is_active = True
+                    user_obj.is_logged_in = True
                     res = {
                         'message': 'User login successfull',
                         'result': {
@@ -122,6 +123,7 @@ class UserLoginView(APIView):
                     user_obj = User.objects.get(phone_no=phone_no)
                     if int(otp) == user_obj.otp:
                         user_obj.is_active = True
+                        user_obj.is_logged_in = True
                         res = {
                             'message': 'User login successfull',
                             'result': {
