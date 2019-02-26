@@ -68,6 +68,24 @@ class GenerateOTPView(APIView):
         return Response(res, status.HTTP_200_OK)
 
 
+class UserLogoutView(APIView):
+
+    permission_classes = (AllowAny,)
+
+    @staticmethod
+    def post(request):
+        user = request.requested_by
+        try:
+            UserObj = User.objects.get(id=user)
+            UserObj.is_logged_in = False
+            UserObj.save()
+            res = {'message': 'User logged out successfully'}
+        except User.DoesNotExist:
+            res = {'message': "User Doesnt exist"}
+            return Response(res, status.HTTP_404_NOT_FOUND)
+        return Response(res, status.HTTP_200_OK)
+
+
 class UserLoginView(APIView):
 
     permission_classes = (AllowAny,)
