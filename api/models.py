@@ -84,6 +84,7 @@ class User(AbstractBaseUser, PermissionsMixin):
     is_active = models.BooleanField(default=False)
     date_joined = models.DateTimeField(auto_now_add=True)
     otp = models.IntegerField(null=True, default=None)
+    is_logged_in = models.BooleanField(default=False)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
@@ -193,7 +194,7 @@ class CourseSubjects(models.Model):
 class Questions(models.Model):
 
     id = models.BigAutoField(primary_key=True)
-    text = models.CharField(max_length=255)
+    text = models.CharField(max_length=2000)
     question_type = models.IntegerField(default=None, null=True)
     media_url = models.URLField(max_length=1000, null=True)
     media_type = models.IntegerField(default=None, null=True)
@@ -351,7 +352,7 @@ class PracticePapers(models.Model):
     name = models.CharField(max_length=255)
     description = models.CharField(max_length=500)
     question_bank = models.ForeignKey('QuestionBank', models.DO_NOTHING)
-    year = models.ForeignKey("Years", on_delete=models.CASCADE)
+    year = models.IntegerField(null=True)
     time_limit = models.IntegerField()
     is_time_per_question = models.BooleanField(default=False)
     guidelines = JSONField()
