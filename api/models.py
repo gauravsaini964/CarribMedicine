@@ -301,7 +301,7 @@ class UserSubjectScore(models.Model):
     total_score = models.IntegerField(default=0)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
-    flag = models.IntegerField()
+    flag = models.BooleanField(default=True)
 
     class Meta:
         db_table = 'user_subject_score'
@@ -375,3 +375,17 @@ class PaperSubject(models.Model):
 
     class Meta:
         db_table = 'paper_subjects'
+
+
+class UserPracticePaperScore(models.Model):
+
+    id = models.BigAutoField(primary_key=True)
+    practice_paper = models.ForeignKey("PracticePapers", on_delete=models.CASCADE)
+    user = models.ForeignKey("User", on_delete=models.CASCADE)
+    score = models.IntegerField(default=0)
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+    flag = models.BooleanField(default=True)
+    
+    class Meta:
+        db_table = 'user_practice_paper_score'
