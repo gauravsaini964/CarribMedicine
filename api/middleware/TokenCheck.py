@@ -45,7 +45,7 @@ class KeyAndTokenCheck:
                 auth = request.META['HTTP_AUTHORIZATION'].split()[1]
                 try:
                     payload = jwt_decode_handler(auth)
-                    user_obj = User.objects.get(id=payload.get('sub'), is_logged_in=True, is_active=True)
+                    user_obj = User.objects.get(id=payload.get('id'), is_logged_in=True, is_active=True)
                     if user_obj:
                         request.requested_by = payload.get('sub')
                 except User.DoesNotExist:
