@@ -47,7 +47,7 @@ class KeyAndTokenCheck:
                     payload = jwt_decode_handler(auth)
                     user_obj = User.objects.get(id=payload.get('id'), is_logged_in=True, is_active=True)
                     if user_obj:
-                        request.requested_by = payload.get('sub')
+                        request.requested_by = payload.get('id')
                 except User.DoesNotExist:
                     request.requested_by = None
                     return HttpResponse(json.dumps({'message': 'User is logged out. Login again.'}),
