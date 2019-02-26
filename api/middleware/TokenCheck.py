@@ -30,7 +30,6 @@ class KeyAndTokenCheck:
         request.start_time = time.time()
         current_timestamp = datetime.datetime.now()
         try:
-            print('heere')
             if request.META['HTTP_KEY']:
                 api_key = request.META['HTTP_KEY']
                 try:
