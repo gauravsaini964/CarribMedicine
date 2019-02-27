@@ -19,10 +19,10 @@ class QuizInitializeView(APIView):
 
     @staticmethod
     def post(request):
-        user = 4
+        user = request.requested_by
         subject_id = request.POST.get('subject_id', None)
         practice_paper_id = request.POST.get('practice_paper_id', None)
-        if not subject_id or practice_paper_id:
+        if not (subject_id or practice_paper_id):
             res = {'message': 'Subject ID/ Paper ID not found'}
             return Response(res, status.HTTP_200_OK)
 
@@ -43,7 +43,7 @@ class QuizInitializeView(APIView):
             questions_list = QuestionsQuestionBank.objects.filter(
                 question_bank_id=paper_obj.question_bank_id).values_list('question_id', flat=True)
             questions = Questions.objects.filter(
-                id__in=questions_list, flag=True, question_type=1, text__isnull=False).order_by('?')[:10]
+                id__in=questions_list, flag=True, question_type=1, text__isnull=False).order_by('?')
             final_question_list = questions.values_list('id', flat=True)
             quiz_obj = Quiz.objects.create(
                 user_id=user, quiz_type='practice', result_set={}, entity_id=paper_obj.id, entity_type='practice_paper',
