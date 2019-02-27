@@ -114,7 +114,8 @@ class QuizAnswersView(APIView):
         quiz_quest_obj.response_time = response_time
         quiz_quest_obj.save()
         quiz_obj.save()
-        quiz_quest_status = QuizQuestions.objects.filter(id=quiz_question_id).values().order_by('id')
+        quiz_quest_status = QuizQuestions.objects.filter(
+            quiz_id=quiz_quest_obj.quiz_id).values("id", "quiz_id", "question_id", "user_answer_id").order_by('id')
         res = {
             'message': 'Answer Posted Successfully',
             'result': {'answered_correctly': answered_correctly, 'question_status': quiz_quest_status}}
