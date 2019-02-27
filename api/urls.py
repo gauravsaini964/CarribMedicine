@@ -1,7 +1,7 @@
 from django.urls import path
 
 # Class Imports
-from api.views import Authentication, Service, Practice, PracticeAssessments
+from api.views import Authentication, Service, Practice, PracticeAssessments, Statistics
 
 urlpatterns = [
     # authentication apts
@@ -18,5 +18,8 @@ urlpatterns = [
     path('quiz/answers/', Practice.QuizAnswersView.as_view()),
     path('quiz/complete/', Practice.QuizCompletionView.as_view()),
     # practice paper list
-    path('practice/paper/list', PracticeAssessments.PaperList.as_view())
+    path('practice/paper/list', PracticeAssessments.PaperListView.as_view()),
+    # statitics
+    path('practice/paper/leaderboard/', Statistics.LeaderboardView.as_view())
+
 ]

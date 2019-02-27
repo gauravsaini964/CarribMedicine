@@ -15,7 +15,7 @@ from api.models import (
 # Serializer Imports.
 
 
-class PaperList(APIView):
+class PaperListView(APIView):
 
     @staticmethod
     def get(request):
