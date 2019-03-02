@@ -40,7 +40,7 @@ class UserManager(BaseUserManager):
         if phone is None:
             raise TypeError('Users must have an phone_no')
 
-        user = self.model(phone_no=self.phone_no)
+        user = self.model(phone_no=phone)
         user.save()
 
         return user
@@ -77,7 +77,7 @@ class User(AbstractBaseUser, PermissionsMixin):
     username = models.CharField(max_length=150)
     first_name = models.CharField(max_length=30)
     last_name = models.CharField(max_length=150)
-    email = models.CharField(unique=True, max_length=254)
+    email = models.CharField(unique=True, null=True, max_length=254)
     phone_no = models.CharField(unique=True, null=True, max_length=20)
     is_phone_verified = models.BooleanField(default=False)
     is_staff = models.BooleanField(default=False)
