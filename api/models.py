@@ -40,7 +40,7 @@ class UserManager(BaseUserManager):
         if phone is None:
             raise TypeError('Users must have an phone_no')
 
-        user = self.model(phone_no=self.phone)
+        user = self.model(phone_no=self.phone_no)
         user.save()
 
         return user
