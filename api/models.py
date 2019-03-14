@@ -28,9 +28,7 @@ class UserManager(BaseUserManager):
         if password is None:
             raise TypeError('Users must have a password address.')
 
-        user = self.model(email=self.normalize_email(email))
-        user = self.model(gender=gender)
-        user = self.model(first_name=name)
+        user = self.model(email=self.normalize_email(email), gender=gender, first_name=name)
         user.set_password(password)
         user.save()
 
@@ -42,9 +40,7 @@ class UserManager(BaseUserManager):
         if phone is None:
             raise TypeError('Users must have an phone_no')
 
-        user = self.model(phone_no=phone)
-        user = self.model(gender=gender)
-        user = self.model(first_name=name)
+        user = self.model(phone_no=phone, gender=gender, first_name=name)
         user.save()
 
         return user
