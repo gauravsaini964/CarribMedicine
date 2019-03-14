@@ -30,9 +30,12 @@ class RegistrationAPIView(APIView):
 
     def post(self, request):
         email = request.POST.get('email', None)
+        name = request.POST.get('name', None)
+        gender = request.POST.get('gender', None)
+
         if email:
             password = request.POST.get('password', None)
-            if User.objects.create_user(email=email, password=password):
+            if User.objects.create_user(email=email, password=password, name=name, gender=gender):
                 res = {'message': 'User created successfully'}
                 return Response(res, status.HTTP_201_CREATED)
         
@@ -42,7 +45,7 @@ class RegistrationAPIView(APIView):
                 res = {'message': 'Phone/Email field is required'}
                 return Response(res, status.HTTP_400_BAD_REQUEST)
             else:
-                if User.objects.create_user_otp_based(phone=phone_no):
+                if User.objects.create_user_otp_based(phone=phone_no, name=name, gender=gender):
                     res = {'message': 'User created successfully'}
                     return Response(res, status.HTTP_201_CREATED)
 

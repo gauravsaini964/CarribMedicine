@@ -20,7 +20,7 @@ class UserManager(BaseUserManager):
     to create `User` objects.
     """
 
-    def create_user(self, email, password=None):
+    def create_user(self, email, password=None, gender=None, name=None):
         """Create and return a `User` with an email, username and password."""
 
         if email is None:
@@ -29,18 +29,22 @@ class UserManager(BaseUserManager):
             raise TypeError('Users must have a password address.')
 
         user = self.model(email=self.normalize_email(email))
+        user = self.model(gender=gender)
+        user = self.model(first_name=name)
         user.set_password(password)
         user.save()
 
         return user
 
-    def create_user_otp_based(self, phone):
+    def create_user_otp_based(self, phone, gender=None, name=None):
         """Create and return a `User` with an email, username and password."""
 
         if phone is None:
             raise TypeError('Users must have an phone_no')
 
         user = self.model(phone_no=phone)
+        user = self.model(gender=gender)
+        user = self.model(first_name=name)
         user.save()
 
         return user
@@ -77,6 +81,7 @@ class User(AbstractBaseUser, PermissionsMixin):
     username = models.CharField(max_length=150)
     first_name = models.CharField(max_length=30)
     last_name = models.CharField(max_length=150)
+    gender = models.CharField(max_length=10, default=None, null=True)
     email = models.CharField(unique=True, null=True, max_length=254)
     phone_no = models.CharField(unique=True, null=True, max_length=20)
     is_phone_verified = models.BooleanField(default=False)
