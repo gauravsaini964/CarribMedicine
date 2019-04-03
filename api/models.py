@@ -391,3 +391,16 @@ class UserPracticePaperScore(models.Model):
     
     class Meta:
         db_table = 'user_practice_paper_score'
+
+
+class UserDevices(models.Model):
+    id = models.BigAutoField(primary_key=True)
+    user = models.ForeignKey('User', models.DO_NOTHING)
+    device_os = models.CharField(max_length=10)
+    push_key = models.CharField(max_length=255)
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+    flag = models.BooleanField(default=True)
+
+    class Meta:
+        db_table = 'user_device'
