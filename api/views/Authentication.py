@@ -12,7 +12,7 @@ from random import randint
 from api.utilities.karix import send_otp
 
 # Models Imports.
-from api.models import User
+from api.models import User, UserDevices
 
 # Serializer Imports.
 
@@ -140,3 +140,26 @@ class UserLoginView(APIView):
                     res = {'message': 'User doesnt exist', 'result': {}}
                 return Response(res, status.HTTP_200_OK)
 
+
+class UserPushKeyView(APIView):
+    
+    @staticmethod
+    def post(request):
+        user = request.requested_by
+        push_key = request.POST.get('push_key', None)
+        os = request.POST.get('os', 'android')
+        
+        if not push_key:
+            res = {"message": "No push key supplied."}
+            return Response(res, status.HTTP_400_BAD_REQUEST)
+        
+        users_device = UserDevices.objects.filter(user_id=user).first()
+        if users_device:
+            users_device.push_key = push_key
+            users_device.os = os
+            users_device.save()
+        else:
+            UserDevices.objects.create(user_id=user, push_key=push_key, os=os)
+            
+        res = {"message": "Push key updated."}
+        return Response(res, status.HTTP_200_OK)
