@@ -106,7 +106,8 @@ class UserLoginView(APIView):
                     res = {
                         'message': 'User login successfull',
                         'result': {
-                            'user_details': User.objects.filter(email=email).values('id', 'email').first(),
+                            'user_details': User.objects.filter(email=email).values('id', 'email', 'first_name',
+                                                                                    'last_name', 'gender').first(),
                             'token': user_obj.token,
                             'extra_details': {}}}
                     user_obj.save()
@@ -130,7 +131,10 @@ class UserLoginView(APIView):
                         res = {
                             'message': 'User login successfull',
                             'result': {
-                                'user_details': User.objects.filter(phone_no=phone_no).values('id', 'email').first(),
+                                'user_details': User.objects.filter(phone_no=phone_no).values('id', 'email',
+                                                                                              'first_name',
+                                                                                              'last_name',
+                                                                                              'gender').first(),
                                 'token': user_obj.token,
                                 'extra_details': {}}}
                         user_obj.save()
