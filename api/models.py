@@ -393,7 +393,7 @@ class UserPracticePaperScore(models.Model):
         db_table = 'user_practice_paper_score'
 
 
-class UserDevices(models.Model):
+class UserDevice(models.Model):
     id = models.BigAutoField(primary_key=True)
     user = models.ForeignKey('User', models.DO_NOTHING)
     device_os = models.CharField(max_length=10)
