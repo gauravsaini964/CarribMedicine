@@ -156,10 +156,10 @@ class UserPushKeyView(APIView):
         users_device = UserDevice.objects.filter(user_id=user).first()
         if users_device:
             users_device.push_key = push_key
-            users_device.os = os
+            users_device.device_os = os
             users_device.save()
         else:
-            UserDevice.objects.create(user_id=user, push_key=push_key, os=os)
+            UserDevice.objects.create(user_id=user, push_key=push_key, device_os=os)
             
         res = {"message": "Push key updated."}
         return Response(res, status.HTTP_200_OK)
