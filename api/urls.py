@@ -1,7 +1,7 @@
 from django.urls import path
 
 # Class Imports
-from api.views import Authentication, Service, Practice, PracticeAssessments, Statistics
+from api.views import Authentication, Service, Practice, PracticeAssessments, Statistics, ContentUpload
 
 urlpatterns = [
     # authentication apts
@@ -21,6 +21,9 @@ urlpatterns = [
     # practice paper list
     path('practice/paper/list', PracticeAssessments.PaperListView.as_view()),
     # statitics
-    path('practice/paper/leaderboard/', Statistics.LeaderboardView.as_view())
+    path('practice/paper/leaderboard/', Statistics.LeaderboardView.as_view()),
+    # content-upload
+    path('media/upload/', ContentUpload.ContentS3Upload.as_view()),
+    path('question/upload/', ContentUpload.QuestionUpload.as_view()),
 
 ]
