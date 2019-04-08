@@ -84,3 +84,18 @@ class ContentS3Upload(APIView):
         else:
             res = {"message": "Something went wrong"}
             return Response(res, status.HTTP_500_INTERNAL_SERVER_ERROR)
+        
+        
+# class QuestionsListView(APIView):
+    
+#     @staticmethod
+#     def get(request):
+#         question_list = Questions.objects.all().values("text", "question_type", "media_url", "media_type", "hints",
+#                                                        "created_at", "updated_at", "flag",
+#                                                        "questionschoices_choice_id__text",
+#                                                        "questionschoices_choice_id__media_url",
+#                                                        "questionschoices_choice_id__media_type",
+#                                                        "questionschoices_choice_id__choice_type",
+#                                                        "questionschoices_choice_id__hints",
+#                                                        "questionschoices_choice_id__hints",
+#                                                        "")

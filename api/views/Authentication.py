@@ -113,8 +113,10 @@ class UserLoginView(APIView):
                     user_obj.save()
                 else:
                     res = {'message': 'User login failed', 'result': {}}
+                    return Response(res, status.HTTP_400_BAD_REQUEST)
             except User.DoesNotExist:
                 res = {'message': 'User doesnt exist', 'result': {}}
+                return Response(res, status.HTTP_404_NOT_FOUND)
             return Response(res, status.HTTP_200_OK)
         else:
             phone_no = request.POST.get('phone_no', None)
@@ -140,8 +142,10 @@ class UserLoginView(APIView):
                         user_obj.save()
                     else:
                         res = {'message': 'User login failed', 'result': {}}
+                        return Response(res, status.HTTP_400_BAD_REQUEST)
                 except User.DoesNotExist:
                     res = {'message': 'User doesnt exist', 'result': {}}
+                    return Response(res, status.HTTP_404_NOT_FOUND)
                 return Response(res, status.HTTP_200_OK)
 
 
